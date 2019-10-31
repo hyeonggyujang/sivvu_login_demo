@@ -1,0 +1,83 @@
+<html>
+    
+    
+<head>
+<title>Login Page</title>  
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')  }}">
+    <div class="header img">
+        <img src="{{ url_for('static', filename='css/logo.png')  }}"
+         alt="SIVVU LOGO">
+    </div>
+</head>
+    
+<body>
+
+    <div class="wrapper">
+    <div id="container">
+    <div id= "left">
+    <img src="{{ url_for('static', filename='css/logo.png')  }}"
+         alt="SIVVU LOGO"
+         width="400"
+         height="200">
+        <br>
+        <h1>"The name says it all."</h1>
+        
+        <p>
+        Sivvu™ models spectroscopic titration data according to the Beer Lambert Law for absorbance while assuming all the chemical species are at equilibrium. This allows three questions to be definitively answered:
+        </p>
+        
+        <p>1) How many distinct chemical species, particularly absorbers, exist somewhere over the course of the titration?</p>
+    
+        <p>2) What is the spectroscopic signature (Molar Absorptivity) of each?</p>
+ 
+        <p>3) What are the binding constants (or ΔG° values) for the reactions between them?</p>
+        
+    </div>
+    
+    <div id="right">
+    <div class="login-page">
+    <div class="form">
+        <form class="register-form">
+        <input type="text" placeholder="Email" id="userEmail"/>
+        <input type="text" placeholder="Username" id="userId"/>
+        <input type="text" placeholder="Password" id="userPw"/>
+        <button name="create_button" value="create_user">Create</button>
+        <p class="message">Already Registered? <a href="#">Login</a></p>
+        </form>    
+        
+        <form class="login-form">
+        <input type="text" placeholder="Username"/>
+        <input type="password" placeholder="Password"/>
+        <button name="login_button" value="login_user">Login</button>
+        <p class="message"> Not Registered? <a href="#">Register</a></p>
+         
+        
+        </form>
+        
+        
+        
+    </div>
+    </div>
+    </div>
+    </div>
+    
+    <script src='https://code.jquery.com/jquery-3.2.1.min.js'>
+    </script>
+    
+    <script>
+    $('.message a').click(function(){
+    $('form').animate({height: "toggle", opacity:"toggle"}, "slow");                      
+                          
+                          });
+        
+    </script>
+    
+    <div class="push"></div>
+    </div>
+    
+</body>
+    
+<div class="footer">Written by Douglas A. Vander Griend, Professor of Chemistry at Calvin College, with special contributions by Michael Vermeer, Matthew Greeley, and Youngki Kim. Based upon work supported by the National Science Foundation under Grant CHE1310402. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author and do not necessarily reflect the views of the NSF.</div>
+    
+ 
+</html>

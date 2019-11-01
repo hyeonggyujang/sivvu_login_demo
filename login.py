@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
 from random import randint
@@ -11,22 +11,29 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userId = db.Column(db.String(100), nullable=False)
+    userName = db.Column(db.String(100), nullable=False)
     userPw = db.Column(db.String(100), nullable=False)
-    userEmail = db.Column(db.String(500), nullable=False)
-    fName = db.Column(db.String(100), nullable=True)
-    lName = db.Column(db.String(100), nullable=True)
+    userEmail = db.Column(db.String(500), nullable=True)
+    f_Name = db.Column(db.String(100), nullable=True)
+    l_Name = db.Column(db.String(100), nullable=True)
 
-    def __init__(self, Id, Pw, Email):
+    def __init__(self, Id, Pw):
         self.id = randint(0, 1000)
-        self.userId = Id
+        self.userName = Id
         self.userPw = Pw
-        self.userEmail = Email
-        self.fName = 'null'
-        self.lName = 'null'
+        self.userEmail = 'null'
+        self.f_Name = 'null'
+        self.l_Name = 'null'
 
     def __repr__(self):
-        return f"User('{self.userId}', '{self.fName}', '{self.lName}')"
+        return "User(%r, %s, %s %s)" % (self.id, self.userName, self.f_Name, self.l_Name)
+
+    def add_email(self, Email):
+        self.userEmail = Email
+
+    def add_name(self, fName, lName):
+        self.f_Name = fName
+        self.l_Name = lName
 
 
 @app.before_request
@@ -41,33 +48,46 @@ def make_session_permanent():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method =='POST':
-        if request.form.get('create_button') == 'create_user':
-            Id = request.form("userId")
-            Pw = request.form("userPw")
-            Email = request.form("userEmail")
-            user_input = User(Id, Pw, Email)
+        if request.form.get('register_button') == 'register':
+            fName = str(request.form.get("fName"))
+            lName = str(request.form.get("lName"))
+            Email = str(request.form.get("userEmail"))
+            Id = str(request.form.get("userId"))
+            Pw1 = str(request.form.get("userPw1"))
+            Pw2 = str(request.form.get("userPw2"))
+
+            if Pw1 == Pw2:
+                new_user = User(Id, Pw1)
+                new_user.add_email(Email)
+                new_user.add_name(fName, lName)
+
+            else:
+                flash( "Passwords don't match!" )
 
             try:
-                db.session.add(user_input)
+                db.session.add(new_user)
                 db.session.commit()
-                return redirect('/')
+                return "Registration Success!"
 
             except:
-                return "THere is an issue in log in process!"
+                return "There is an issue in the registration process!"
             
-        elif request.form.get('login_button') == 'login_user':
-            Id = request.form("existing_user")
-            Pw = request.form("existing_pw")
-            Email = ''
-            user_input = User(Id, Pw, Email)
+        elif request.form.get('login_button') == 'login':
+            Id = str(request.form.get("loginId"))
+            Pw = str(request.form.get("loginPw"))
+            user_input = User(Id, Pw)
 
             try:
-                db.session.add(user_input)
-                db.session.commit()
-                return redirect('/')
+                if User.query.filter_by(userName=Id).first() == None:
+                    return "No such user please register!"
+                else:
+                    if User.query.filter_by(userName=Id).first().userPw == Pw:
+                        return "Login Success!"
+                    else: 
+                        return "Wrong Password!"
 
             except:
-                return "THere is an issue in log in process!"
+                return "There is an issue in the log in process!"
         
     else:
         return render_template('index.html')

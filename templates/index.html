@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html>  
     
     
 <head>
@@ -37,18 +38,21 @@
     <div id="right">
     <div class="login-page">
     <div class="form">
-        <form class="register-form">
-        <input type="text" placeholder="Email" id="userEmail"/>
-        <input type="text" placeholder="Username" id="userId"/>
-        <input type="text" placeholder="Password" id="userPw"/>
-        <button name="create_button" value="create_user">Create</button>
+        <form class="register-form" id="register_form" method="POST">
+        <input type="text" placeholder="First Name" name="fName"/>
+        <input type="text" placeholder="Last Name" name="lName"/>
+        <input type="text" placeholder="Email" name="userEmail"/>
+        <input type="text" placeholder="Username" name="userId"/>
+        <input type="password" placeholder="Password" name="userPw1"/>
+        <input type="password" placeholder="Confirm Password" name="userPw2"/>
+        <input type="submit" name="register_button" value="register" />
         <p class="message">Already Registered? <a href="#">Login</a></p>
         </form>    
         
-        <form class="login-form">
-        <input type="text" placeholder="Username"/>
-        <input type="password" placeholder="Password"/>
-        <button name="login_button" value="login_user">Login</button>
+        <form class="login-form" id="login_form" method="POST">
+        <input type="text" placeholder="Username" name="loginId"/>
+        <input type="password" placeholder="Password" name="loginPw"/>
+        <input type="submit" name="login_button" value="login"/>
         <p class="message"> Not Registered? <a href="#">Register</a></p>
          
         
